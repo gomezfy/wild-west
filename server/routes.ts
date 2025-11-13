@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
 import { BUILDING_TYPES, UNIT_TYPES } from "@shared/constants";
-import { insertBuildingSchema, insertChatMessageSchema, insertUnitSchema } from "@shared/schema";
+import { insertBuildingSchema, insertChatMessageSchema, insertUnitSchema, type Building, type Unit } from "@shared/schema";
 import { z } from "zod";
 
 interface WSMessage {
@@ -192,10 +192,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Invalid unit type' });
       }
 
+      const quantity = data.quantity || 1;
       const totalCost = {
-        gold: unitType.goldCost * data.quantity,
-        wood: unitType.woodCost * data.quantity,
-        food: unitType.foodCost * data.quantity,
+        gold: unitType.goldCost * quantity,
+        wood: unitType.woodCost * quantity,
+        food: unitType.foodCost * quantity,
       };
 
       if (
@@ -257,8 +258,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const playerId = req.query.playerId as string;
       
       let currentPlayer = null;
-      let buildings = [];
-      let units = [];
+      let buildings: Building[] = [];
+      let units: Unit[] = [];
       
       if (playerId) {
         currentPlayer = await storage.getPlayer(playerId);
