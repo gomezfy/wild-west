@@ -86,6 +86,9 @@ export default {
         sans: ["var(--font-sans)"],
         serif: ["var(--font-serif)"],
         mono: ["var(--font-mono)"],
+        western: ["Rye", "serif"],
+        ui: ["Overpass", "sans-serif"],
+        numbers: ["Courier Prime", "monospace"],
       },
       keyframes: {
         "accordion-down": {
