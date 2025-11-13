@@ -36,10 +36,10 @@ export default function Game({ username }: GameProps) {
   });
 
   useEffect(() => {
-    if (username && !playerId) {
+    if (username && !playerId && !createPlayerMutation.isPending) {
       createPlayerMutation.mutate(username);
     }
-  }, [username, playerId]);
+  }, [username]);
 
   const { data: gameState, refetch } = useQuery({
     queryKey: ['/api/game/state', playerId],
