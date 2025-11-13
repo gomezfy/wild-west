@@ -1,4 +1,4 @@
-import { Coins, Trees, Drumstick, User, Trophy, Settings } from "lucide-react";
+import { Coins, Trees, Drumstick, User, Trophy, Settings, Building2, Map } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,16 +11,38 @@ import { Player } from "@shared/schema";
 interface GameHUDProps {
   player: Player;
   onShowLeaderboard: () => void;
+  viewMode: 'city' | 'map';
+  onToggleView: () => void;
 }
 
-export function GameHUD({ player, onShowLeaderboard }: GameHUDProps) {
+export function GameHUD({ player, onShowLeaderboard, viewMode, onToggleView }: GameHUDProps) {
   return (
     <div className="fixed top-0 left-0 right-0 h-16 bg-card border-b border-card-border z-50 px-4">
       <div className="h-full flex items-center justify-between gap-4">
-        <div className="flex items-center gap-1">
-          <h1 className="font-western text-xl md:text-2xl text-primary mr-4">
+        <div className="flex items-center gap-3">
+          <h1 className="font-western text-xl md:text-2xl text-primary">
             WILD WEST
           </h1>
+          
+          <Button
+            onClick={onToggleView}
+            variant="default"
+            size="default"
+            className="font-ui font-semibold gap-2"
+            data-testid="button-toggle-view"
+          >
+            {viewMode === 'city' ? (
+              <>
+                <Map className="w-4 h-4" />
+                MAPA
+              </>
+            ) : (
+              <>
+                <Building2 className="w-4 h-4" />
+                CIDADE
+              </>
+            )}
+          </Button>
         </div>
 
         <div className="flex items-center gap-2 md:gap-4 flex-1 justify-center max-w-2xl">

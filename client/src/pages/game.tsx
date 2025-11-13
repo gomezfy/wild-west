@@ -24,6 +24,7 @@ export default function Game({ username }: GameProps) {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [selectedTile, setSelectedTile] = useState<{ x: number; y: number } | null>(null);
   const [placementMode, setPlacementMode] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'city' | 'map'>('city');
   const { toast } = useToast();
 
   const createPlayerMutation = useMutation({
@@ -180,25 +181,33 @@ export default function Game({ username }: GameProps) {
       <GameHUD
         player={currentPlayer}
         onShowLeaderboard={() => setShowLeaderboard(true)}
+        viewMode={viewMode}
+        onToggleView={() => setViewMode(viewMode === 'city' ? 'map' : 'city')}
       />
 
-      <div className="flex-1 flex gap-4 p-4 pt-20 overflow-hidden">
-        <div className="w-80 flex-shrink-0">
-          <Tabs defaultValue="buildings" className="h-full flex flex-col">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="buildings" className="font-ui">Buildings</TabsTrigger>
-              <TabsTrigger value="troops" className="font-ui">Troops</TabsTrigger>
-            </TabsList>
-            <TabsContent value="buildings" className="flex-1 mt-2 min-h-0">
-              <BuildingMenu player={currentPlayer} onBuild={handleBuild} />
-            </TabsContent>
-            <TabsContent value="troops" className="flex-1 mt-2 min-h-0">
-              <TroopPanel player={currentPlayer} units={units} onRecruit={handleRecruit} />
-            </TabsContent>
-          </Tabs>
-        </div>
+      {viewMode === 'city' ? (
+        <div className="flex-1 flex gap-4 p-4 pt-20 overflow-hidden">
+          <div className="flex-1">
+            <Tabs defaultValue="buildings" className="h-full flex flex-col">
+              <TabsList className="grid w-full grid-cols-2 max-w-md">
+                <TabsTrigger value="buildings" className="font-ui">Construções</TabsTrigger>
+                <TabsTrigger value="troops" className="font-ui">Tropas</TabsTrigger>
+              </TabsList>
+              <TabsContent value="buildings" className="flex-1 mt-4 overflow-auto">
+                <BuildingMenu player={currentPlayer} onBuild={handleBuild} />
+              </TabsContent>
+              <TabsContent value="troops" className="flex-1 mt-4 overflow-auto">
+                <TroopPanel player={currentPlayer} units={units} onRecruit={handleRecruit} />
+              </TabsContent>
+            </Tabs>
+          </div>
 
-        <div className="flex-1 min-w-0">
+          <div className="w-80 flex-shrink-0">
+            <ChatPanel messages={chatMessages} onSendMessage={handleSendMessage} />
+          </div>
+        </div>
+      ) : (
+        <div className="flex-1 p-4 pt-20 overflow-hidden">
           <GameMap
             mapTiles={mapTiles}
             buildings={buildings}
@@ -207,11 +216,7 @@ export default function Game({ username }: GameProps) {
             placementMode={placementMode}
           />
         </div>
-
-        <div className="w-80 flex-shrink-0">
-          <ChatPanel messages={chatMessages} onSendMessage={handleSendMessage} />
-        </div>
-      </div>
+      )}
 
       <Leaderboard
         open={showLeaderboard}
