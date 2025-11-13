@@ -10,6 +10,12 @@ export function useWebSocket(playerId: string | null, onMessage?: (message: WSMe
   const ws = useRef<WebSocket | null>(null);
   const { toast } = useToast();
 
+  const onMessageRef = useRef(onMessage);
+  
+  useEffect(() => {
+    onMessageRef.current = onMessage;
+  }, [onMessage]);
+
   useEffect(() => {
     if (!playerId) return;
 
@@ -31,23 +37,23 @@ export function useWebSocket(playerId: string | null, onMessage?: (message: WSMe
         const message: WSMessage = JSON.parse(event.data);
         
         if (message.type === 'chat') {
-          onMessage?.(message);
+          onMessageRef.current?.(message);
         } else if (message.type === 'building_complete') {
           toast({
             title: "Construction Complete",
             description: "Your building is now operational!",
           });
-          onMessage?.(message);
+          onMessageRef.current?.(message);
         } else if (message.type === 'resource_update') {
-          onMessage?.(message);
+          onMessageRef.current?.(message);
         } else if (message.type === 'unit_recruited') {
-          onMessage?.(message);
+          onMessageRef.current?.(message);
         } else if (message.type === 'battle') {
           toast({
             title: "Battle Report",
             description: `Battle result: ${message.data.result}`,
           });
-          onMessage?.(message);
+          onMessageRef.current?.(message);
         }
       } catch (error) {
         console.error('WebSocket message parse error:', error);
@@ -65,7 +71,7 @@ export function useWebSocket(playerId: string | null, onMessage?: (message: WSMe
     return () => {
       ws.current?.close();
     };
-  }, [playerId, onMessage, toast]);
+  }, [playerId, toast]);
 
   const sendMessage = useCallback((message: WSMessage) => {
     if (ws.current?.readyState === WebSocket.OPEN) {
