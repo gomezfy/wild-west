@@ -36,15 +36,15 @@ export function TroopPanel({ player, units, onRecruit }: TroopPanelProps) {
 
   return (
     <Card className="w-full h-full">
-      <CardHeader className="pb-3">
-        <CardTitle className="font-western text-2xl text-primary">Troops</CardTitle>
-        <p className="font-ui text-sm text-muted-foreground">
-          Recruit units for defense and attack
+      <CardHeader className="pb-2 md:pb-3">
+        <CardTitle className="font-western text-xl md:text-2xl text-primary">Tropas</CardTitle>
+        <p className="font-ui text-xs md:text-sm text-muted-foreground">
+          Recrute unidades
         </p>
       </CardHeader>
       <CardContent className="p-0">
-        <ScrollArea className="h-[calc(100vh-14rem)]">
-          <div className="space-y-3 px-6 pb-6">
+        <ScrollArea className="h-[calc(100vh-12rem)] md:h-[calc(100vh-14rem)]">
+          <div className="space-y-2 md:space-y-3 px-3 md:px-6 pb-4 md:pb-6">
             {Object.values(UNIT_TYPES).map((unit) => {
               const affordable = canAfford(unit);
               const count = getUnitCount(unit.id);
@@ -55,9 +55,9 @@ export function TroopPanel({ player, units, onRecruit }: TroopPanelProps) {
                   className={`${!affordable ? 'opacity-50' : 'hover-elevate'}`}
                   data-testid={`card-unit-${unit.id}`}
                 >
-                  <CardContent className="p-4">
-                    <div className="flex gap-4">
-                      <div className="w-16 h-16 flex-shrink-0 rounded-md overflow-hidden bg-muted border border-muted-border">
+                  <CardContent className="p-3 md:p-4">
+                    <div className="flex gap-2 md:gap-4">
+                      <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0 rounded-md overflow-hidden bg-muted border border-muted-border">
                         <img
                           src={UNIT_IMAGES[unit.id]}
                           alt={unit.name}
@@ -68,35 +68,35 @@ export function TroopPanel({ player, units, onRecruit }: TroopPanelProps) {
                       
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between mb-1">
-                          <h3 className="font-western text-lg leading-tight">
+                          <h3 className="font-western text-base md:text-lg leading-tight">
                             {unit.name}
                           </h3>
                           {count > 0 && (
-                            <span className="font-numbers text-sm font-bold bg-primary/20 px-2 py-0.5 rounded-md" data-testid={`text-unit-count-${unit.id}`}>
+                            <span className="font-numbers text-xs md:text-sm font-bold bg-primary/20 px-1.5 md:px-2 py-0.5 rounded-md" data-testid={`text-unit-count-${unit.id}`}>
                               x{count}
                             </span>
                           )}
                         </div>
-                        <p className="font-ui text-xs text-muted-foreground mb-2">
+                        <p className="font-ui text-xs text-muted-foreground mb-1 md:mb-2 hidden sm:block">
                           {unit.description}
                         </p>
                         
-                        <div className="flex items-center gap-3 text-xs mb-2">
-                          <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-2 md:gap-3 text-xs mb-1 md:mb-2">
+                          <div className="flex items-center gap-0.5 md:gap-1">
                             <Sword className="w-3 h-3 text-red-500" />
                             <span className="font-numbers">{unit.attack}</span>
                           </div>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-0.5 md:gap-1">
                             <Shield className="w-3 h-3 text-blue-500" />
                             <span className="font-numbers">{unit.defense}</span>
                           </div>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-0.5 md:gap-1">
                             <Zap className="w-3 h-3 text-yellow-500" />
                             <span className="font-numbers">{unit.speed}</span>
                           </div>
                         </div>
                         
-                        <div className="flex flex-wrap items-center gap-2 text-xs">
+                        <div className="flex flex-wrap items-center gap-1.5 md:gap-2 text-xs">
                           {unit.goldCost > 0 && (
                             <div className="flex items-center gap-1">
                               <Coins className="w-3 h-3 text-amber-500" />
@@ -119,12 +119,13 @@ export function TroopPanel({ player, units, onRecruit }: TroopPanelProps) {
                       </div>
                       
                       <Button
-                        size="icon"
+                        size="sm"
+                        className="h-8 w-8 md:h-9 md:w-9"
                         disabled={!affordable}
                         onClick={() => onRecruit(unit.id)}
                         data-testid={`button-recruit-${unit.id}`}
                       >
-                        <Plus className="w-4 h-4" />
+                        <Plus className="w-3 h-3 md:w-4 md:h-4" />
                       </Button>
                     </div>
                   </CardContent>

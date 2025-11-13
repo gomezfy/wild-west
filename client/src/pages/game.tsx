@@ -186,28 +186,32 @@ export default function Game({ username }: GameProps) {
       />
 
       {viewMode === 'city' ? (
-        <div className="flex-1 flex gap-4 p-4 pt-20 overflow-hidden">
+        <div className="flex-1 flex gap-4 p-2 md:p-4 pt-16 md:pt-20 overflow-hidden">
           <div className="flex-1">
             <Tabs defaultValue="buildings" className="h-full flex flex-col">
-              <TabsList className="grid w-full grid-cols-2 max-w-md">
-                <TabsTrigger value="buildings" className="font-ui">Construções</TabsTrigger>
-                <TabsTrigger value="troops" className="font-ui">Tropas</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-3 md:grid-cols-2 md:max-w-md">
+                <TabsTrigger value="buildings" className="font-ui text-xs md:text-sm">Construções</TabsTrigger>
+                <TabsTrigger value="troops" className="font-ui text-xs md:text-sm">Tropas</TabsTrigger>
+                <TabsTrigger value="chat" className="font-ui text-xs md:text-sm md:hidden">Chat</TabsTrigger>
               </TabsList>
-              <TabsContent value="buildings" className="flex-1 mt-4 overflow-auto">
+              <TabsContent value="buildings" className="flex-1 mt-2 md:mt-4 overflow-auto">
                 <BuildingMenu player={currentPlayer} onBuild={handleBuild} />
               </TabsContent>
-              <TabsContent value="troops" className="flex-1 mt-4 overflow-auto">
+              <TabsContent value="troops" className="flex-1 mt-2 md:mt-4 overflow-auto">
                 <TroopPanel player={currentPlayer} units={units} onRecruit={handleRecruit} />
+              </TabsContent>
+              <TabsContent value="chat" className="flex-1 mt-2 md:mt-4 overflow-auto md:hidden">
+                <ChatPanel messages={chatMessages} onSendMessage={handleSendMessage} />
               </TabsContent>
             </Tabs>
           </div>
 
-          <div className="w-80 flex-shrink-0">
+          <div className="w-80 flex-shrink-0 hidden md:block">
             <ChatPanel messages={chatMessages} onSendMessage={handleSendMessage} />
           </div>
         </div>
       ) : (
-        <div className="flex-1 p-4 pt-20 overflow-hidden">
+        <div className="flex-1 p-2 md:p-4 pt-16 md:pt-20 overflow-hidden">
           <GameMap
             mapTiles={mapTiles}
             buildings={buildings}

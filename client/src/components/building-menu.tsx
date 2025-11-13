@@ -32,15 +32,15 @@ export function BuildingMenu({ player, onBuild }: BuildingMenuProps) {
 
   return (
     <Card className="w-full h-full">
-      <CardHeader className="pb-3">
-        <CardTitle className="font-western text-2xl text-primary">Buildings</CardTitle>
-        <p className="font-ui text-sm text-muted-foreground">
-          Click to select, then place on map
+      <CardHeader className="pb-2 md:pb-3">
+        <CardTitle className="font-western text-xl md:text-2xl text-primary">Construções</CardTitle>
+        <p className="font-ui text-xs md:text-sm text-muted-foreground">
+          Clique para construir
         </p>
       </CardHeader>
       <CardContent className="p-0">
-        <ScrollArea className="h-[calc(100vh-14rem)]">
-          <div className="space-y-3 px-6 pb-6">
+        <ScrollArea className="h-[calc(100vh-12rem)] md:h-[calc(100vh-14rem)]">
+          <div className="space-y-2 md:space-y-3 px-3 md:px-6 pb-4 md:pb-6">
             {Object.values(BUILDING_TYPES).map((building) => {
               const affordable = canAfford(building);
               
@@ -50,9 +50,9 @@ export function BuildingMenu({ player, onBuild }: BuildingMenuProps) {
                   className={`${!affordable ? 'opacity-50' : 'hover-elevate cursor-pointer'}`}
                   data-testid={`card-building-${building.id}`}
                 >
-                  <CardContent className="p-4">
-                    <div className="flex gap-4">
-                      <div className="w-12 h-12 flex-shrink-0 rounded-md overflow-hidden bg-muted border border-muted-border">
+                  <CardContent className="p-3 md:p-4">
+                    <div className="flex gap-2 md:gap-4">
+                      <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-md overflow-hidden bg-muted border border-muted-border">
                         <img
                           src={BUILDING_IMAGES[building.id]}
                           alt={building.name}
@@ -62,14 +62,14 @@ export function BuildingMenu({ player, onBuild }: BuildingMenuProps) {
                       </div>
                       
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-western text-lg leading-tight mb-1">
+                        <h3 className="font-western text-base md:text-lg leading-tight mb-1">
                           {building.name}
                         </h3>
-                        <p className="font-ui text-xs text-muted-foreground line-clamp-2 mb-2">
+                        <p className="font-ui text-xs text-muted-foreground line-clamp-2 mb-1 md:mb-2 hidden sm:block">
                           {building.description}
                         </p>
                         
-                        <div className="flex flex-wrap items-center gap-2 text-xs">
+                        <div className="flex flex-wrap items-center gap-1.5 md:gap-2 text-xs">
                           {building.goldCost > 0 && (
                             <div className="flex items-center gap-1">
                               <Coins className="w-3 h-3 text-amber-500" />
@@ -96,12 +96,13 @@ export function BuildingMenu({ player, onBuild }: BuildingMenuProps) {
                       </div>
                       
                       <Button
-                        size="icon"
+                        size="sm"
+                        className="h-8 w-8 md:h-9 md:w-9"
                         disabled={!affordable}
                         onClick={() => onBuild(building.id)}
                         data-testid={`button-build-${building.id}`}
                       >
-                        <Plus className="w-4 h-4" />
+                        <Plus className="w-3 h-3 md:w-4 md:h-4" />
                       </Button>
                     </div>
                   </CardContent>
