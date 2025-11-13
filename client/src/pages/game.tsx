@@ -49,12 +49,12 @@ export default function Game({ username }: GameProps) {
       return await fetch(`/api/game/state?${params}`).then(res => res.json());
     },
     enabled: !!playerId,
-    refetchInterval: 5000,
+    refetchInterval: false,
   });
 
   const handleWSMessage = useCallback(() => {
     refetch();
-  }, [refetch]);
+  }, []);
 
   const { sendMessage } = useWebSocket(playerId, handleWSMessage);
 

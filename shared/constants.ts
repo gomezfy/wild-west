@@ -95,5 +95,5 @@ export const UNIT_TYPES: Record<string, UnitType> = {
   },
 };
 
-export const MAP_SIZE = 20;
+export const MAP_SIZE = 10;
 export const TILE_SIZE = 60;
